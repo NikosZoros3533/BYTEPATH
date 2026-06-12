@@ -1,38 +1,28 @@
 Object = require("libraries/classic/classic")
+Input = require("libraries/inputs/Input")
+Timer = require("libraries.hump.enhancedTimer")
+fn = require("libraries.Moses.moses")
 
+a = { 1, 2, "3", 4, "5", 6, 7, true, 9, 10, 11, a = 1, b = 2, c = 3, { 1, 2, 3 } }
+b = { 1, 1, 3, 4, 5, 6, 7, false }
+c = { "1", "2", "3", 4, 5, 6 }
+d = { 1, 4, 3, 4, 5, 6 }
 function love.load()
 	local object_files = {}
 	recursiveEnumerate("objects", object_files)
 	requireFiles(object_files)
-	circle = Circle(400, 300, 50)
-	hyperCircle = HyperCircle(400, 300, 50, 10, 120)
+	input = Input()
+	timer = Timer()
+	print(fn.map(d, function(v)
+		return v + 1
+	end))
 end
 
 function love.update(dt)
-	circle:update(dt)
-	hyperCircle:update(dt)
+	timer:update(dt)
 end
 
-function love.draw()
-	circle:draw()
-	hyperCircle:draw()
-end
-
-function love.keypressed(key)
-	print(key)
-end
-
-function love.keyreleased(key)
-	print(key)
-end
-
-function love.mousepressed(x, y, button)
-	print(x, y, button)
-end
-
-function love.mousereleased(x, y, button)
-	print(x, y, button)
-end
+function love.draw() end
 
 function recursiveEnumerate(folder, file_list)
 	local items = love.filesystem.getDirectoryItems(folder)
