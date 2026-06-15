@@ -3,25 +3,19 @@ Input = require("libraries/inputs/Input")
 Timer = require("libraries.hump.enhancedTimer")
 fn = require("libraries.Moses.moses")
 
+require("GameObject")
+require("utils")
 function love.load()
 	local object_files = {}
 	recursiveEnumerate("objects", object_files)
 	requireFiles(object_files)
 	local rooms_files = {}
-	recursiveEnumerate("rooms", object_files)
+	recursiveEnumerate("rooms", rooms_files)
 	requireFiles(rooms_files)
-	input = Input()
 	timer = Timer()
+	input = Input()
 	current_room = nil
-	input:bind("f1", function()
-		goToRoom("CircleRoom")
-	end)
-	input:bind("f2", function()
-		goToRoom("RectangleRoom")
-	end)
-	input:bind("f3", function()
-		goToRoom("PolygonRoom")
-	end)
+	goToRoom("Stage")
 end
 
 function love.update(dt)
