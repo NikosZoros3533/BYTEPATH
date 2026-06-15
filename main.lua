@@ -1,4 +1,3 @@
---testing
 Object = require("libraries/classic/classic")
 Input = require("libraries/inputs/Input")
 Timer = require("libraries.hump.enhancedTimer")
