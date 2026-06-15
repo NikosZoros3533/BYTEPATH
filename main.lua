@@ -3,26 +3,43 @@ Input = require("libraries/inputs/Input")
 Timer = require("libraries.hump.enhancedTimer")
 fn = require("libraries.Moses.moses")
 
-a = { 1, 2, "3", 4, "5", 6, 7, true, 9, 10, 11, a = 1, b = 2, c = 3, { 1, 2, 3 } }
-b = { 1, 1, 3, 4, 5, 6, 7, false }
-c = { "1", "2", "3", 4, 5, 6 }
-d = { 1, 4, 3, 4, 5, 6 }
 function love.load()
 	local object_files = {}
 	recursiveEnumerate("objects", object_files)
 	requireFiles(object_files)
+	local rooms_files = {}
+	recursiveEnumerate("rooms", object_files)
+	requireFiles(rooms_files)
 	input = Input()
 	timer = Timer()
-	print(fn.map(d, function(v)
-		return v + 1
-	end))
+	current_room = nil
+	input:bind("f1", function()
+		goToRoom("CircleRoom")
+	end)
+	input:bind("f2", function()
+		goToRoom("RectangleRoom")
+	end)
+	input:bind("f3", function()
+		goToRoom("PolygonRoom")
+	end)
 end
 
 function love.update(dt)
 	timer:update(dt)
+	if current_room then
+		current_room:update(dt)
+	end
 end
 
-function love.draw() end
+function love.draw()
+	if current_room then
+		current_room:draw()
+	end
+end
+
+function goToRoom(room_type, ...)
+	current_room = _G[room_type](...)
+end
 
 function recursiveEnumerate(folder, file_list)
 	local items = love.filesystem.getDirectoryItems(folder)
